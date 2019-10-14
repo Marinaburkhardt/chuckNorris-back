@@ -34,6 +34,13 @@ function compare(figura1, figura2) {
     return result
 }
 
+
+/**
+ * 
+ * @param {tipoFigura} figura 
+ * si es una figura valida
+ * es devuelve true caso contrario devuelve false
+ */
 function esFiguraValida(figura) {
     result = false
     if (figura == tipoFigura.SOMBRERO || figura == tipoFigura.ARMA || figura == tipoFigura.SONRISA) {
@@ -49,13 +56,8 @@ module.exports = {
 }
 
 
-console.log(esFiguraValida("asd"))
-
-
 /*
  * ARMA = PIEDRA
  * SONRISA = PAPEL
  * SOMBRERO = TIJERA
  */
-
-console.log(compare(tipoFigura.SONRISA, tipoFigura.ARMA))
