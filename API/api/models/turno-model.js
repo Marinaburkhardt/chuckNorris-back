@@ -23,7 +23,7 @@
  *   Turnos:
  *     type: array
  *     items:
- *       $ref: '#/definitions/Turnos'
+ *       $ref: '#/definitions/Turno'
  */
 export default class Turno {
     constructor(numeroTurno, idPartida, idJugadaPorJugador1, idJugadaPorJugador2, nickJugadorGanador) {

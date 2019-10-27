@@ -4,29 +4,33 @@
  *   Partida:
  *     type: object
  *     required:
+ *       - id
  *       - idEstado
- *       - nickJugador
- *       - nickJugador2
+ *       - idJugador1
+ *       - idJugador2
  *       - fechaCreacion
  *     properties:
+ *       id:
+ *         type: id
  *       idEstado:
  *         type: number
- *       nickJugador:
- *         type: string
- *       nickJugador2:
- *         type: string
+ *       idJugador1:
+ *         type: number
+ *       idJugador2:
+ *         type: number
  *       fechaCreacion:
  *         type: date
  *   Partidas:
  *     type: array
  *     items:
- *       $ref: '#/definitions/Turnos'
+ *       $ref: '#/definitions/Turno'
  */
 export default class Partida {
-    constructor(idEstado, nickJugador, nickJugador2, fechaCreacion) {
+    constructor(id, idEstado, idJugador1, idJugador2, fechaCreacion) {
+      this.id = id
       this.idEstado = idEstado
-      this.nickJugador = nickJugador
-      this.nickJugador2 = nickJugador2
+      this.idJugador1 = idJugador1
+      this.idJugador1 = idJugador1
       this.fechaCreacion = fechaCreacion
     }
   }
