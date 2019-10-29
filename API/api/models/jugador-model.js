@@ -5,6 +5,7 @@
  *   Jugador:
  *     type: object
  *     required:
+ *       - id
  *       - password
  *       - mail
  *       - nick
@@ -24,10 +25,11 @@
  *   Jugadores:
  *     type: array
  *     items:  
- *       $ref: '#/definitions/Jugadores'
+ *       $ref: '#/definitions/Jugador'
  */
 export default class Jugador {
-    constructor(password, mail, nick, partidasJugadas, partidasGanadas) {
+    constructor(id, password, mail, nick, partidasJugadas, partidasGanadas) {
+      this.id = id
       this.password = password
       this.mail = mail
       this.nick = nick

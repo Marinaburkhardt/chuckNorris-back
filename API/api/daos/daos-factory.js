@@ -7,6 +7,7 @@ let memoryDAOJugador = null
 let memoryDAOPartida = null
 
 
+
 function getInstanceStocks(type) {
   if (type === 'memory') {
     if (memoryDAOStock === null) {
@@ -27,7 +28,7 @@ function getInstanceJugador(type) {
   throw new Error('Unknown DAO type ' + type)
 }
 
-function getInstancePartida() {
+function getInstancePartida(type) {
   if (type === 'memory') {
     if (memoryDAOPartida === null) {
       memoryDAOPartida = new PartidaMemoryDAO()

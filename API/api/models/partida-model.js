@@ -11,7 +11,7 @@
  *       - fechaCreacion
  *     properties:
  *       id:
- *         type: id
+ *         type: number
  *       idEstado:
  *         type: number
  *       idJugador1:
@@ -19,11 +19,11 @@
  *       idJugador2:
  *         type: number
  *       fechaCreacion:
- *         type: date
+ *         type: string
  *   Partidas:
  *     type: array
  *     items:
- *       $ref: '#/definitions/Turno'
+ *       $ref: '#/definitions/Partida'
  */
 export default class Partida {
     constructor(id, idEstado, idJugador1, idJugador2, fechaCreacion) {
