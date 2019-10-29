@@ -49,7 +49,7 @@ router.get('/', (req, res, next) => {
  *           $ref: '#/definitions/Stock'
  */
 router.get('/:id', (req, res, next) => {
-  const response = dao.retrieve(parseInt(req.params.id, 10))
+  const response = dao.buscarJugador(parseInt(req.params.id, 10))
   Swagger.validateModel('Stock', response)
   res.send(response)
 })

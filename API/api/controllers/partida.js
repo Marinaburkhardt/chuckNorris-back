@@ -1,13 +1,13 @@
 import * as DAO from '../daos/daos-factory'
 import * as Swagger from './swagger'
 
-const dao = DAO.getInstanceJugador('memory')
+const dao = DAO.getInstancePartida('memory')
 
 const express = require('express')
 const router = express.Router()
 /**
  * @swagger
- * /partidas:
+ * /partida/partidas:
  *   get:
  *     description: Retrieve an specific stock
  *     tags:
@@ -21,14 +21,14 @@ const router = express.Router()
  *           $ref: '#/definitions/Partidas'
  */
 router.get('/partidas', async (req, res) => {
-    const response = dao.
+    const response = dao.getAllPartidas()
     Swagger.validateModel('Partida', response)
     res.send(response)
 })
 
 /**
  * @swagger
- * /turnos/{id}:
+ * /partida/turnos/{id}:
  *   get:
  *     description: Devuelve todos los turnos de una partida
  *     tags:
@@ -52,6 +52,35 @@ router.get('/turnos/:id', async (req, res) => {
     Swagger.validateModel('Partida', response)
     res.send(response)
 })
+
+
+/**
+ * @swagger
+ * /partida:
+ *   post:
+ *     description: Crea una nueva partida
+ *     tags:
+ *       - partida
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: partida
+ *         description: partida object
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/Partida'
+ *     responses:
+ *       200:
+ *         description: new partida
+ *         schema:
+ *           $ref: '#/definitions/Partida'
+ */
+router.post('/', (req, res, next) => {
+    Swagger.validateModel('Partida', req.body)
+    const response = dao.create(req.body)
+    res.send(response)
+  })
 
 
 module.exports = router
