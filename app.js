@@ -1,22 +1,18 @@
 var express = require('express')
 var logger = require('morgan')
-var cookieParser = require('cookie-parser')
-var bodyParser = require('body-parser')
+
 
 const port = 3000
 
-var stocks = require('./api/controllers/stocks')
-var swagger = require('./api/controllers/swagger')
-var partida = require('./api/controllers/partida')
-var jugador = require('./api/controllers/jugador')
+var stocks = require('./src/controllers/stocks')
+var swagger = require('./src/controllers/swagger')
+var partida = require('./src/controllers/partida')
+var jugador = require('./src/controllers/jugador')
 
 
 var app = express()
 
 app.use(logger('dev'))
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(cookieParser())
 
 app.use('/api/stocks', stocks)
 app.use('/api/partida', partida)

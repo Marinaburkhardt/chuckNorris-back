@@ -4,20 +4,12 @@
   "private": true,
   "scripts": {
     "start": "babel-node app.js",
-    "lint": "standard --fix",
-    "snyk-protect": "snyk protect",
-    "prepare": "npm run snyk-protect"
+    "lint": "standard --fix"
   },
   "dependencies": {
-    "body-parser": "~1.18.2",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.6.9",
     "express": "~4.16.0",
-    "jade": "~1.11.0",
-    "morgan": "~1.9.1",
+    "morgan": "^1.9.1",
     "nodemailer": "^6.3.1",
-    "serve-favicon": "~2.4.5",
-    "snyk": "^1.192.5",
     "swagger-jsdoc": "^1.10.3",
     "swagger-model-validator": "^2.1.11",
     "swagger-ui-express": "^2.0.7"
