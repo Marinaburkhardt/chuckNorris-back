@@ -30,7 +30,7 @@ export default class Partida {
       this.id = id
       this.idEstado = idEstado
       this.idJugador1 = idJugador1
-      this.idJugador1 = idJugador1
+      this.idJugador1 = idJugador2
       this.fechaCreacion = fechaCreacion
     }
   }
