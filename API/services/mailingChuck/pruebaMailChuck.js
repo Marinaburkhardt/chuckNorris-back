@@ -1,4 +1,4 @@
 import mailChuck from './mailChuck'
 
 
-mailChuck.envioMailChuck({mail: 'saint.eze@gmail.com', nick: 'godakuvik'}, 'comienzo') 
+mailChuck.envioMailChuck({mail: 'burkhardtmarina@gmail.com', nick: 'godakuvik'}, 'jugadaPendiente') 
