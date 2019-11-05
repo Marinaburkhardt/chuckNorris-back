@@ -1,4 +1,4 @@
-import mailChuck from './mailChuck'
+// import mailChuck from './mailChuck'
+const envio = require('./mailChuck')
 
-
-mailChuck.envioMailChuck({mail: 'burkhardtmarina@gmail.com', nick: 'godakuvik'}, 'jugadaPendiente') 
+envio.envioMailChuck({mail: 'burkhardtmarina@gmail.com', nick: 'godakuvik'}, 'jugadaPendiente') 

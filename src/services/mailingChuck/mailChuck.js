@@ -1,7 +1,8 @@
-import mailing from '../mailing/mailing'
+// import mailing from '../mailing/mailing'
+const mailing = require('../mailing/mailing')
+
 let timeoutID;
 let turnoAntesDeMail;
-
 let comienzoPartidaOptions = {
 
     attachments: [
@@ -132,4 +133,4 @@ function envioMailChuck(jugador, accion) {
     
 }
 
-module.exports = envioMailChuck
+module.exports = { envioMailChuck }

@@ -43,4 +43,4 @@ function enviarMail (mailOptions){
   });
 }
 
-module.exports = enviarMail
+module.exports = {enviarMail}
