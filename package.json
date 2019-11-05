@@ -23,6 +23,5 @@
   },
   "standard": {
     "parser": "babel-eslint"
-  },
-  "snyk": true
+  }
 }
