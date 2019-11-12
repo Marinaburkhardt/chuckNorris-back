@@ -1,25 +1,22 @@
-import Model from '../models/partida-model'
+import Partida from '../../models/partida-model'
 
 export default class PartidaMemoryDAO {
     constructor() {
-        this.data = new Map()
+        this.partidas = []
+
         this.createPartida(1, 'ejemploEstado', 0, 1, "2019-10-29")
     }
 
-    createPartida(id, idEstado, idJugador1, idJugador2, fechaCreacion) {
-        this.data.set(id, new Model(id, idEstado, idJugador1, idJugador2, fechaCreacion))
+    createPartida(idEstado, idJugador1, idJugador2, fechaCreacion) {
+        this.partidas.push(new Partida(idEstado, idJugador1, idJugador2, fechaCreacion))
     }
 
     getAllPartidas() {
-        return Array.from(this.data.values())
+        return this.partidas
     }
 
-    getPartidaById(id) {
-        if (this.data.has(id)) {
-            return this.data.get(id)
-        } else {
-            throw new Error(`No hay partidas con el id ${id}`)
-        }
+    getPartidaByJugador() {
+       return 
     }
 
     create(partida) {

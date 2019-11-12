@@ -1,10 +1,54 @@
-import StocksMemoryDAO from './stocks-memory-dao'
-import JugadorMemoryDAO from './jugador-memory-dao'
-import PartidaMemoryDAO from './partida-memory-dao.js'
+import StocksMemoryDAO from './daos-memory/stocks-memory-dao'
+
+import JugadorMemoryDAO from './daos-memory/jugador-memory-dao'
+import JugadorDBDAO from './daos-db/jugador-db-dao'
+
+import PartidaMemoryDAO from './daos-memory/partida-memory-dao'
+import PartidaDBDAO from './daos-db/partida-db-dao'
+
 
 let memoryDAOStock = null
 let memoryDAOJugador = null
 let memoryDAOPartida = null
+
+function isInstantiated(obj) {
+  result = false
+
+  obj = null ? result = false : result = true
+
+  return result
+}
+
+function getInstance(type, dao) {
+  let instance
+
+
+
+
+
+  //ask type
+  if (type == 'memory') {
+    //ask memory-dao
+    switch (dao) {
+      case 'jugador':
+        isInstantiated(JugadorMemoryDAO) ? instance = memoryDAOJugador : instance = new JugadorMemoryDAO
+        break
+
+      case 'partida':
+        isInstantiated(PartidaMemoryDAO) ? instance = memoryDAOPartida : instance = new PartidaMemoryDAO
+        break
+    }
+    if (memoryDAOStock === null) {
+      memoryDAOStock = new StocksMemoryDAO()
+    }
+  } else if (type == 'DB') {
+
+    switch (dao) {
+      case 'jugador':
+        instance = JugadorDBDAO
+    }
+  }
+}
 
 
 
@@ -19,23 +63,30 @@ function getInstanceStocks(type) {
 }
 
 function getInstanceJugador(type) {
+
   if (type === 'memory') {
     if (memoryDAOJugador === null) {
       memoryDAOJugador = new JugadorMemoryDAO()
+      return memoryDAOJugador
     }
-    return memoryDAOJugador
+  } else if (type === 'db') {
+    return JugadorDBDAO
+  } else {
+    throw new Error('Unknown DAO type ' + type)
   }
-  throw new Error('Unknown DAO type ' + type)
 }
 
 function getInstancePartida(type) {
   if (type === 'memory') {
     if (memoryDAOPartida === null) {
       memoryDAOPartida = new PartidaMemoryDAO()
+      return memoryDAOPartida
     }
-    return memoryDAOPartida
+  } else if (type == 'db') {
+    return PartidaDBDAO
+  } else {
+    throw new Error('Unknown DAO type ' + type)
   }
-  throw new Error('Unknown DAO type ' + type)
 }
 
 module.exports = {

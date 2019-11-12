@@ -5,7 +5,6 @@
  *   Jugador:
  *     type: object
  *     required:
- *       - id
  *       - password
  *       - mail
  *       - nick
@@ -28,8 +27,7 @@
  *       $ref: '#/definitions/Jugador'
  */
 export default class Jugador {
-    constructor(id, password, mail, nick, partidasJugadas, partidasGanadas) {
-      this.id = id
+    constructor(password, mail, nick, partidasJugadas, partidasGanadas) {
       this.password = password
       this.mail = mail
       this.nick = nick

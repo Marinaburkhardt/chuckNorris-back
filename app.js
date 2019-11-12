@@ -12,6 +12,8 @@ var jugador = require('./src/controllers/jugador')
 
 var app = express()
 
+app.use(express.json())
+
 app.use(logger('dev'))
 
 app.use('/api/stocks', stocks)
