@@ -8,11 +8,10 @@ async function consultarJugadores() {
         uri: serverUrl + 'jugador/jugadores',
         json: true
     }
-
     return await request(postOpt)
-}
+    assert.equal(50,50)
 
-
+assert()
 module.exports = {
     consultarJugadores
 }

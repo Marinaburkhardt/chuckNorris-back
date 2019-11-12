@@ -1,26 +1,16 @@
 /**
  * @swagger
  * definitions:
- *   Stock:
+ *   ResponseError:
  *     type: object
  *     required:
- *       - id
- *       - name
- *       - currentPrice
- *       - lastUpdate
+ *       - codigo
+ *       - descripcion
  *     properties:
- *       id:
+ *       codigo:
  *         type: number
- *       name:
+ *       descripcion:
  *         type: string
- *       currentPrice:
- *         type: number
- *       lastUpdate:
- *         type: number
- *   Stocks:
- *     type: array
- *     items:
- *       $ref: '#/definitions/Stock'
  */
 export default class ResponseError {
     constructor(codigo, descripcion) {

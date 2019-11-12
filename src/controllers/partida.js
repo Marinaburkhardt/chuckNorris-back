@@ -81,7 +81,6 @@ router.get('/turnos/:id', async (req, res) => {
  */
 router.post('/comenzar', (req, res, next) => {
     // Swagger.validateModel('Partida', req.body)
-
     let request = req.body
     dao.comenzarPartida(request.nickJugador1, request.nickJugador2).then(result => {
         console.log(result)
