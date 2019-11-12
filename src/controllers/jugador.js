@@ -1,15 +1,15 @@
 import * as DAO from '../daos/daos-factory'
 import * as Swagger from './swagger'
-import JugadorMemoryDAO from '../daos/jugador-memory-dao'
+import ResponseError from '../models/response-error-model'
+const dao = DAO.getInstanceJugador('db')
 
-const dao = DAO.getInstanceJugador('memory')
 
 const express = require('express')
 const router = express.Router()
 
 /**
  * @swagger
- * /jugador/jugadores:
+ * /jugador/jugadores/getAll:
  *   get:
  *     description: lista de jugadores menos el pasado por parametro
  *     tags:
@@ -22,11 +22,30 @@ const router = express.Router()
  *         schema:
  *           $ref: '#/definitions/Jugadores'
  */
-router.get('/jugadores', (req, res, next) => {
-    const response = dao.getAllJugadores()
-    Swagger.validateModel('Jugadores', response)
-    res.send(response)
+router.get('/jugadores/getAll', (req, res, next) => {
+  const response = dao.getAllJugadores(function (err, result) {
+    res.send(result)
+  })
 })
+
+router.post('/create', (req, res, next) => {
+  console.log(req.body)
+  dao.create(req.body)
+  res.json(req.body)
+})
+
+
+router.post('/login', (req, res, next) => {
+  dao.login(req.body.nick, req.body.password).then(result => {
+    if(result == undefined){
+      res.status(400)
+      res.json(new ResponseError(400, "El usuario ingresado no existe"))
+    }else{
+      res.json(result)
+    }
+  })
+})
+
 
 
 /**
@@ -50,11 +69,26 @@ router.get('/jugadores', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/Jugador'
  */
-router.get('/:id', (req, res, next) => {
-    const response = dao.retrieve(parseInt(req.params.id, 10))
-    Swagger.validateModel('Stock', response)
-    res.send(response)
+router.get('/jugadores/:nick', async (req, res, next) => {
+  dao.getAllJugadoresByNick(req.params.nick).then(result => {
+    res.send(result)
   })
+})
+
+
+router.get('/saraza/saraza', async (req, res, next) => {
+  dao.getAllJugadores().then(result => {
+    res.send(result)
+  })
+})
+
+router.get('/top5', async (req, res, next) => {
+  dao.getTop5().then(result => {
+    res.send(result)
+  })
+})
+
+
 
 /**
  * @swagger
@@ -78,10 +112,9 @@ router.get('/:id', (req, res, next) => {
  *         schema:
  *           $ref: '#/definitions/Jugador'
  */
-router.post('/', (req, res, next) => {
-    Swagger.validateModel('Jugador', req.body)
-    const response = dao.create(req.body)
-    res.send(response)
-  })
+router.post('/create', (req, res, next) => {
+  console.log(req.body)
+  res.send(req.body)
+})
 
 module.exports = router

@@ -1,6 +1,6 @@
 import * as DAO from '../daos/daos-factory'
 import * as Swagger from './swagger'
-import StocksMemoryDAO from '../daos/stocks-memory-dao'
+import StocksMemoryDAO from '../daos/daos-memory/stocks-memory-dao'
 
 const dao = DAO.getInstanceStocks('memory')
 const express = require('express')
@@ -123,10 +123,8 @@ router.put('/:id', (req, res, next) => {
  *           $ref: '#/definitions/Stock'
  */
 router.post('/', (req, res, next) => {
-  Swagger.validateModel('Stock', req.body)
-  const response = dao.create(req.body)
-  Swagger.validateModel('Stock', response)
-  res.send(response)
+ 
+  res.send(req.body)
 })
 
 module.exports = router

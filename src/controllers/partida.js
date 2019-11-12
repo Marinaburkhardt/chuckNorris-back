@@ -1,7 +1,7 @@
 import * as DAO from '../daos/daos-factory'
 import * as Swagger from './swagger'
 
-const dao = DAO.getInstancePartida('memory')
+const dao = DAO.getInstancePartida('db')
 
 const express = require('express')
 const router = express.Router()
@@ -20,10 +20,10 @@ const router = express.Router()
  *         schema:
  *           $ref: '#/definitions/Partidas'
  */
-router.get('/partidas', async (req, res) => {
-    const response = dao.getAllPartidas()
-    Swagger.validateModel('Partida', response)
-    res.send(response)
+router.get('/partidas/:nick', async (req, res, next) => {
+    dao.getAllPartidasByNick(req.params.nick).then(result => {
+        res.send(result)
+    })
 })
 
 /**
@@ -49,9 +49,12 @@ router.get('/partidas', async (req, res) => {
  */
 router.get('/turnos/:id', async (req, res) => {
     const response = dao.
-    Swagger.validateModel('Partida', response)
+        Swagger.validateModel('Partida', response)
     res.send(response)
 })
+
+
+
 
 
 /**
@@ -76,11 +79,15 @@ router.get('/turnos/:id', async (req, res) => {
  *         schema:
  *           $ref: '#/definitions/Partida'
  */
-router.post('/', (req, res, next) => {
-    Swagger.validateModel('Partida', req.body)
-    const response = dao.create(req.body)
-    res.send(response)
-  })
+router.post('/comenzar', (req, res, next) => {
+    // Swagger.validateModel('Partida', req.body)
+
+    let request = req.body
+    dao.comenzarPartida(request.nickJugador1, request.nickJugador2).then(result => {
+        console.log(result)
+        res.send(result)
+    })
+})
 
 
 module.exports = router

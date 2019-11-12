@@ -1,4 +1,4 @@
-import Model from '../models/turno-model'
+import Model from '../../models/turno-model'
 
 
 export default class JugadorMemoryDAO {
