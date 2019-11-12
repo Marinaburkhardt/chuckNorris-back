@@ -7,26 +7,6 @@ const dao = DAO.getInstanceJugador('db')
 const express = require('express')
 const router = express.Router()
 
-/**
- * @swagger
- * /jugador/jugadores/getAll:
- *   get:
- *     description: lista de jugadores menos el pasado por parametro
- *     tags:
- *       - jugador
- *     produces:
- *       - application/json
- *     responses:
- *       200:
- *         description: Jugadores
- *         schema:
- *           $ref: '#/definitions/Jugadores'
- */
-router.get('/jugadores/getAll', (req, res, next) => {
-  const response = dao.getAllJugadores(function (err, result) {
-    res.send(result)
-  })
-})
 
 router.post('/create', (req, res, next) => {
   console.log(req.body)
@@ -34,7 +14,23 @@ router.post('/create', (req, res, next) => {
   res.json(req.body)
 })
 
-
+/**
+ * @swagger
+ * /login:
+ *   get:
+ *     description: valida la existencia y el ingreso de datos de un jugador
+ *     tags:
+ *       - jugador
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: Jugador
+ *         schema:
+ *           $ref: '#/definitions/Jugadores'
+ *       400:
+ *         description: 
+ */
 router.post('/login', (req, res, next) => {
   dao.login(req.body.nick, req.body.password).then(result => {
     if(result == undefined){
@@ -74,6 +70,8 @@ router.get('/jugadores/:nick', async (req, res, next) => {
     res.send(result)
   })
 })
+
+
 
 
 router.get('/saraza/saraza', async (req, res, next) => {
