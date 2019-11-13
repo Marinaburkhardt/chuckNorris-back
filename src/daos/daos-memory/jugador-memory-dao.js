@@ -11,6 +11,7 @@ function createJugador(password, mail, nick, partidasJugadas, partidasGanadas) {
     return new Jugador(password, mail, nick, partidasJugadas, partidasGanadas)
 }
 
+
 function create(jugador) {
     if (buscarJugador(jugador.nick) != null) {
         jugadores.push(jugador)
@@ -19,21 +20,26 @@ function create(jugador) {
     }
 }
 
-function getAllJugadores(q, callback) {
 
+async function login(nick, password) {
+    return buscarJugador(nick, password)
 }
 
 
-function buscarJugador(nick) {
-    let jugador = null; let i = 0
-    while (i <  jugadores.length && jugador == null) {
-        if ( jugadores[i].nick == nick) {
+async function buscarJugador(nick, password) {
+    let jugador = undefined; let i = 0
+    while (i < jugadores.length && jugador == undefined) {
+        console.log(i)
+        if (jugadores[i].NickJugador == nick && jugadores[i].Contraseña == password) {
             jugador = jugadores[i]
         } else {
             i++
         }
     }
     return jugador
+
 }
 
-
+module.exports = {
+    login
+}

@@ -1,10 +1,18 @@
-var cli = require('../client')
+const assert = require("chai").assert;
+const client = require('../client')
 
-async function jugadoresOK() {
-    console.log( await cli.consultarJugadores())
-}
+describe("LOGIN TESTS: ", function () {
+    describe("CASOS: ", function () {
 
-module.exports = {
-    jugadoresOK
-} 
-
+        client.consultarJugadores("mkraitman", "admin")
+        .then(result => {
+            console.log(result)
+            it("LOGIN OK", function () {
+                assert.equal({
+                    NickJugador: "mkraitman",
+                    Mail: "mkraitman@gmail.com", result
+                })
+            })
+        })
+    })
+})

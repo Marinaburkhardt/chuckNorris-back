@@ -6,16 +6,16 @@
  *     type: object
  *     required:
  *       - password
- *       - mail
- *       - nick
+ *       - Mail
+ *       - NickJugador
  *       - partidasJugadas
  *       - partidasGanadas
  *     properties:
  *       password:
  *         type: string
- *       mail:
+ *       Mail:
  *         type: string
- *       nick:
+ *       NickJugador:
  *         type: string
  *       partidasJugadas:
  *         type: number
@@ -27,10 +27,10 @@
  *       $ref: '#/definitions/Jugador'
  */
 export default class Jugador {
-    constructor(password, mail, nick, partidasJugadas, partidasGanadas) {
-      this.password = password
-      this.mail = mail
-      this.nick = nick
+    constructor(Contraseña, Mail, NickJugador, partidasJugadas, partidasGanadas) {
+      this.Contraseña = Contraseña
+      this.Mail = Mail
+      this.NickJugador = NickJugador
       this.partidasJugadas = partidasJugadas
       this.partidasGanadas = partidasGanadas
     }

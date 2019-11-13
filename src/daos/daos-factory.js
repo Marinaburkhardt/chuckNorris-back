@@ -22,11 +22,6 @@ function isInstantiated(obj) {
 function getInstance(type, dao) {
   let instance
 
-
-
-
-
-  //ask type
   if (type == 'memory') {
     //ask memory-dao
     switch (dao) {
@@ -41,7 +36,9 @@ function getInstance(type, dao) {
     if (memoryDAOStock === null) {
       memoryDAOStock = new StocksMemoryDAO()
     }
-  } else if (type == 'DB') {
+
+    //pregunta por la base de datos
+  } else if (type == 'db') {
 
     switch (dao) {
       case 'jugador':
@@ -66,7 +63,7 @@ function getInstanceJugador(type) {
 
   if (type === 'memory') {
     if (memoryDAOJugador === null) {
-      memoryDAOJugador = new JugadorMemoryDAO()
+      memoryDAOJugador = JugadorMemoryDAO
       return memoryDAOJugador
     }
   } else if (type === 'db') {
@@ -85,7 +82,7 @@ function getInstancePartida(type) {
   } else if (type == 'db') {
     return PartidaDBDAO
   } else {
-    throw new Error('Unknown DAO type ' + type)
+    // throw new Error('Unknown DAO type ' + type)
   }
 }
 

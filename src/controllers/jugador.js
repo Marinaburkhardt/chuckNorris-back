@@ -8,11 +8,6 @@ const express = require('express')
 const router = express.Router()
 
 
-router.post('/create', (req, res, next) => {
-  console.log(req.body)
-  dao.create(req.body)
-  res.json(req.body)
-})
 
 /**
  * @swagger
@@ -33,53 +28,44 @@ router.post('/create', (req, res, next) => {
  */
 router.post('/login', (req, res, next) => {
   dao.login(req.body.nick, req.body.password).then(result => {
+    console.log(req.body.nick + req.body.password)
+    console.log(result)
     if(result == undefined){
       res.status(400)
       res.json(new ResponseError(400, "El usuario ingresado no existe"))
     }else{
       let resultado = { 
-        nick : result.NickJugador,
-        mail : result.Mail
+        NickJugador : result.NickJugador,
+        Mail : result.Mail
       }
       res.json(resultado)
     }
   })
 })
 
-
-
-/**
- * @swagger
- * /jugador/{id}:
- *   get:
- *     description: Devuelve un jugador especifico
- *     tags:
- *       - jugador
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: id
- *         description: identificador unico de jugador
- *         in: path
- *         required: true
- *         type: number
- *     responses:
- *       200:
- *         description: jugador
- *         schema:
- *           $ref: '#/definitions/Jugador'
- */
+  /**
+   * @swagger
+   * /jugador/{id}:
+   *   get:
+   *     description: Devuelve un jugador especifico
+   *     tags:
+   *       - jugador
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: id
+   *         description: identificador unico de jugador
+   *         in: path
+   *         required: true
+   *         type: number
+   *     responses:
+   *       200:
+   *         description: jugador
+   *         schema:
+   *           $ref: '#/definitions/Jugador'
+   */
 router.get('/jugadores/:nick', async (req, res, next) => {
   dao.getAllJugadoresByNick(req.params.nick).then(result => {
-    res.send(result)
-  })
-})
-
-
-
-
-router.get('/saraza/saraza', async (req, res, next) => {
-  dao.getAllJugadores().then(result => {
     res.send(result)
   })
 })
@@ -89,8 +75,6 @@ router.get('/top5', async (req, res, next) => {
     res.send(result)
   })
 })
-
-
 
 /**
  * @swagger
