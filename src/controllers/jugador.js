@@ -37,7 +37,11 @@ router.post('/login', (req, res, next) => {
       res.status(400)
       res.json(new ResponseError(400, "El usuario ingresado no existe"))
     }else{
-      res.json(result)
+      let resultado = { 
+        nick : result.NickJugador,
+        mail : result.Mail
+      }
+      res.json(resultado)
     }
   })
 })

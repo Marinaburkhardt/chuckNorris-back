@@ -10,7 +10,7 @@ function getTop5() {
 }
 
 function getAllJugadoresByNick(nick) {
-    return db.execVarchar('[dbo].[obtenerJugadores]', 'nickJugador', nick)
+    return db.execVarchar2('[dbo].[obtenerJugadores]', 'nickJugador', nick)
 }
 
 function login(nick, password) {

@@ -3,7 +3,7 @@ const db = require('../../database/db-functions')
 
 
 function getAllPartidasByNick(nick) {
-    return db.execVarchar('[dbo].[obtenerPartidasEnJuego]', 'nickJugador', nick)
+    return db.execVarchar2('[dbo].[obtenerPartidasEnJuego]', 'nickJugador', nick)
 }
 
 function comenzarPartida(nickJugador1, nickJugador2){

@@ -44,7 +44,7 @@ function execInt(procedure, param, int) {
  * @param {*nombre del parametro} param 
  * @param {*valor del parametro} varchar 
  */
-function execVarchar(procedure, param, varchar) {
+function execVarchar2(procedure, param, varchar) {
     const connection = connectDB()
     return connection
         .then(pool => {
@@ -93,7 +93,7 @@ function execVarchar(procedure, param, varchar, param2, varchar2) {
 function query(query) {
     const connection = connectDB()
     return connection
-    .then(pool =>{
+    .then(pool => {
         return pool.request()
         .query(query)
     })
@@ -111,4 +111,5 @@ module.exports = {
     query,
     execInt,
     execVarchar,
+    execVarchar2
 }
