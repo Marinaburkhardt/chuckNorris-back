@@ -1,6 +1,6 @@
 var express = require('express')
 var logger = require('morgan')
-
+var cors = require('cors');
 
 const port = 3000
 
@@ -13,7 +13,7 @@ var jugador = require('./src/controllers/jugador')
 var app = express()
 
 app.use(express.json())
-
+app.use(cors());
 app.use(logger('dev'))
 
 app.use('/api/stocks', stocks)
