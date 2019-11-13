@@ -31,7 +31,7 @@ function execInt(procedure, param, int) {
                 .execute(procedure)
         })
         .then(result => {
-            return result.recordset[nnnn0][""]
+            return result.recordset[0][""]
         })
         .catch(err => {
             console.log('Query failed!', err)
