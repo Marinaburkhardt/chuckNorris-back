@@ -26,11 +26,11 @@
  *       $ref: '#/definitions/Partida'
  */
 export default class Partida {
-    constructor(id, idEstado, idJugador1, idJugador2, fechaCreacion) {
-      this.id = id
-      this.idEstado = idEstado
-      this.idJugador1 = idJugador1
-      this.idJugador1 = idJugador2
-      this.fechaCreacion = fechaCreacion
-    }
+  constructor(Id, IdEstado, NickJugador, NickJugador2, FechaCreacion) {
+    this.Id = id
+    this.IdEstado = idEstado
+    this.NickJugador = NickJugador
+    this.NickJugador2 = NickJugador2
+    this.FechaCreacion = FechaCreacion
   }
+}

@@ -19,18 +19,7 @@ function login(nick, password) {
     return db.query(query)
 }
 
-
-
 //SELECT * FROM jugador WHERE NickJugador = 'mkraitman' AND Contraseña = '213a'
-
-function create(jugador) {
-    if (this.data.has(jugador.id)) {
-        throw new Error(`un jugador con el id ${jugador.id} ya existe`)
-    } else {
-        this.createStock()
-        return this.retrieve(jugador.id)
-    }
-}
 
 module.exports = {
     getAllJugadores,

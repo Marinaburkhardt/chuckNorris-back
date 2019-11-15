@@ -1,6 +1,5 @@
 import Model from '../../models/turno-model'
 
-
 export default class JugadorMemoryDAO {
     constructor() {
         this.data = new Map()

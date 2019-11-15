@@ -27,12 +27,12 @@
  *       $ref: '#/definitions/Jugador'
  */
 export default class Jugador {
-    constructor(Contraseña, Mail, NickJugador, partidasJugadas, partidasGanadas) {
+    constructor(Contraseña, Mail, NickJugador, PartidasJugadas, PartidasGanadas) {
+      this.NickJugador = NickJugador
       this.Contraseña = Contraseña
       this.Mail = Mail
-      this.NickJugador = NickJugador
-      this.partidasJugadas = partidasJugadas
-      this.partidasGanadas = partidasGanadas
+      this.PartidasJugadas = PartidasJugadas
+      this.PartidasGanadas = PartidasGanadas
     }
   }
   

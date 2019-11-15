@@ -1,30 +1,72 @@
 import Partida from '../../models/partida-model'
 
-export default class PartidaMemoryDAO {
-    constructor() {
-        this.partidas = []
+let partidas = []
+partidas.push(1, 1, "mkraitman", "edditrana", "2019-11-12" )
+partidas.push(2, 1, "mburkhardt", "edditrana", "2019-11-12" )
+partidas.push(3, 1, "mkraitman", "mburkhardt", "2019-11-12" )
+partidas.push(4, 1, "mkraitman", "edditrana", "2019-11-12" )
+partidas.push(5, 1, "mkraitman", "edditrana", "2019-11-12" )
+partidas.push(6, 1, "mkraitman", "edditrana", "2019-11-12" )
+partidas.push(7, 1, "mkraitman", "edditrana", "2019-11-12" )
+partidas.push(8, 1, "mkraitman", "edditrana", "2019-11-12" )
 
-        this.createPartida(1, 'ejemploEstado', 0, 1, "2019-10-29")
+
+
+function createPartida(id, idEstado, nickJugador, nickJugador2, fechaCreacion) {
+    return new Partida(id, idEstado, nickJugador, nickJugador2, fechaCreacion)
+}
+
+function create(jugador) {
+    if (buscarJugador(jugador.nick) != null) {
+        jugadores.push(jugador)
+    } else {
+        throw new Error('Jugador ya existente')
     }
+}
 
-    createPartida(idEstado, idJugador1, idJugador2, fechaCreacion) {
-        this.partidas.push(new Partida(idEstado, idJugador1, idJugador2, fechaCreacion))
+async function getAllPartidasByNick(nick) {
+    return sacarJugador(nick)
+}
+
+
+
+
+async function getTop5() {
+    return getTop()
+}
+
+async function getTop() {
+    let lstJugadores = []
+    let i = 0
+    while (i < 5) {
+        delete jugadores[i]['Contraseña']
+        lstJugadores.push(jugadores[i])
+        i++
+        console.log(i)
     }
+    return lstJugadores
+}
 
-    getAllPartidas() {
-        return this.partidas
-    }
+async function login(nick, password) {
+    return buscarJugador(nick, password)
+}
 
-    getPartidaByJugador() {
-       return 
-    }
-
-    create(partida) {
-        if (this.data.has(partida.id)) {
-            throw new Error(`una partida con el id ${partida.id} ya existe!`)
+async function buscarJugador(nick, password) {
+    let jugador = undefined; let i = 0
+    while (i < jugadores.length && jugador == undefined) {
+        console.log(i)
+        if (jugadores[i].NickJugador == nick && jugadores[i].Contraseña == password) {
+            jugador = jugadores[i]
         } else {
-            this.createPartida(partida.id, partida.idEstado, partida.idJugador1, partida.idJugador2, partida.fechaCreacion)
-            return this.getPartidaById(partida.id)
+            i++
         }
     }
+    return jugador
+
+}
+
+module.exports = {
+    login,
+    getAllPartidasByNick,
+    getTop5
 }

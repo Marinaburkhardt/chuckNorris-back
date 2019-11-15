@@ -1,9 +1,7 @@
 import * as DAO from '../daos/daos-factory'
 import * as Swagger from './swagger'
 import ResponseError from '../models/response-error-model'
-const dao = DAO.getInstanceJugador('db')
-
-
+const dao = DAO.getInstanceJugador('memory')
 const express = require('express')
 const router = express.Router()
 
@@ -66,12 +64,17 @@ router.post('/login', (req, res, next) => {
    */
 router.get('/jugadores/:nick', async (req, res, next) => {
   dao.getAllJugadoresByNick(req.params.nick).then(result => {
+    if(result == "no encontrado"){
+      res.status(400)
+      result = new ResponseError(400, "El jugador no se encuentra en la lista")
+    }
     res.send(result)
   })
 })
 
 router.get('/top5', async (req, res, next) => {
   dao.getTop5().then(result => {
+    console.log(result)
     res.send(result)
   })
 })
