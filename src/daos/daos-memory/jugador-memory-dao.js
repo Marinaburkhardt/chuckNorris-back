@@ -1,6 +1,4 @@
 import Jugador from '../../models/jugador-model'
-import ResponseError from '../../models/response-error-model'
-
 
 let jugadores = []
 jugadores.push(createJugador('admin', 'mkraitman@gmail.com', 'mkraitman', 0, 0))
@@ -15,8 +13,6 @@ jugadores.push(createJugador('admin', 'saraza@gmail.com', 'roberto', 0, 0))
 function createJugador(password, mail, nick, partidasJugadas, partidasGanadas) {
     return new Jugador(password, mail, nick, partidasJugadas, partidasGanadas)
 }
-
-
 
 function create(jugador) {
     if (buscarJugador(jugador.nick) != null) {
@@ -50,7 +46,6 @@ async function sacarJugador(nick) {
     }
     return result
 }
-
 
 async function getTop5() {
     return getTop()

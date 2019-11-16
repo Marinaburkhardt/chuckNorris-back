@@ -58,7 +58,6 @@ describe('--- JUGADOR CONTROLLER TESTCASES ---', function () {
             })
     })
 
-    
     it('GET ALL JUGADORES BY NICK ERROR', function (done) {
         chai.request('http://localhost:3000')
             .get('/api/jugador/jugadores/jugadorNoValido')

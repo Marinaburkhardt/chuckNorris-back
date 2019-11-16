@@ -1,7 +1,6 @@
 let dbConfig = require('./db-config').config
 var sql = require("mssql")
 
-
 /**
  * Conecta con la base de datos usando la configuracion de db-config
  */

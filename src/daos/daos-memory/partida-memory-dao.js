@@ -1,50 +1,33 @@
 import Partida from '../../models/partida-model'
 
 let partidas = []
-partidas.push(1, 1, "mkraitman", "edditrana", "2019-11-12" )
-partidas.push(2, 1, "mburkhardt", "edditrana", "2019-11-12" )
-partidas.push(3, 1, "mkraitman", "mburkhardt", "2019-11-12" )
-partidas.push(4, 1, "mkraitman", "edditrana", "2019-11-12" )
-partidas.push(5, 1, "mkraitman", "edditrana", "2019-11-12" )
-partidas.push(6, 1, "mkraitman", "edditrana", "2019-11-12" )
-partidas.push(7, 1, "mkraitman", "edditrana", "2019-11-12" )
-partidas.push(8, 1, "mkraitman", "edditrana", "2019-11-12" )
+partidas.push(createPartida(1, 1, "mkraitman", "edditrana", "2019-11-12"))
+partidas.push(createPartida(2, 1, "mburkhardt", "edditrana", "2019-11-12"))
+partidas.push(createPartida(3, 1, "mkraitman", "mburkhardt", "2019-11-12"))
+partidas.push(createPartida(4, 1, "mkraitman", "edditrana", "2019-11-12"))
+partidas.push(createPartida(5, 1, "mkraitman", "edditrana", "2019-11-12"))
+partidas.push(createPartida(6, 1, "mkraitman", "edditrana", "2019-11-12"))
+partidas.push(createPartida(7, 1, "mkraitman", "edditrana", "2019-11-12"))
+partidas.push(createPartida(8, 1, "mkraitman", "edditrana", "2019-11-12"))
 
-
-
-function createPartida(id, idEstado, nickJugador, nickJugador2, fechaCreacion) {
-    return new Partida(id, idEstado, nickJugador, nickJugador2, fechaCreacion)
-}
-
-function create(jugador) {
-    if (buscarJugador(jugador.nick) != null) {
-        jugadores.push(jugador)
-    } else {
-        throw new Error('Jugador ya existente')
-    }
+function createPartida(id, idEstado, nickJugador, nickJugador2, fecha) {
+    return new Partida(id, idEstado, nickJugador, nickJugador2, fecha)
 }
 
 async function getAllPartidasByNick(nick) {
-    return sacarJugador(nick)
+    return getAllPartidas(nick)
 }
 
-
-
-
-async function getTop5() {
-    return getTop()
-}
-
-async function getTop() {
-    let lstJugadores = []
-    let i = 0
-    while (i < 5) {
-        delete jugadores[i]['Contraseña']
-        lstJugadores.push(jugadores[i])
-        i++
-        console.log(i)
-    }
-    return lstJugadores
+async function getAllPartidas(nick) {
+    let lstPartidas = []
+    partidas.forEach(partida => {
+        console.log(partida)
+        if (partida.NickJugador == nick || partida.NickJugador2 == nick) {
+            lstPartidas.push(partida)
+        }
+    })
+    console.log(lstPartidas)
+    return lstPartidas
 }
 
 async function login(nick, password) {
@@ -66,7 +49,5 @@ async function buscarJugador(nick, password) {
 }
 
 module.exports = {
-    login,
-    getAllPartidasByNick,
-    getTop5
+    getAllPartidasByNick
 }

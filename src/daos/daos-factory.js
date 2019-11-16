@@ -76,7 +76,7 @@ function getInstanceJugador(type) {
 function getInstancePartida(type) {
   if (type === 'memory') {
     if (memoryDAOPartida === null) {
-      memoryDAOPartida = new PartidaMemoryDAO()
+      memoryDAOPartida = PartidaMemoryDAO
       return memoryDAOPartida
     }
   } else if (type == 'db') {

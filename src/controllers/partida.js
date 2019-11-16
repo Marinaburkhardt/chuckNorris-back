@@ -1,7 +1,7 @@
 import * as DAO from '../daos/daos-factory'
 import * as Swagger from './swagger'
 
-const dao = DAO.getInstancePartida('db')
+const dao = DAO.getInstancePartida('memory')
 
 const express = require('express')
 const router = express.Router()
@@ -22,6 +22,7 @@ const router = express.Router()
  */
 router.get('/partidas/:nick', async (req, res, next) => {
     dao.getAllPartidasByNick(req.params.nick).then(result => {
+        console.log(result)
         res.send(result)
     })
 })
