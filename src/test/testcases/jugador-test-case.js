@@ -2,10 +2,12 @@ const chai = require('chai');
 const expect = chai.expect
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp)
+let URL = 'http://localhost:3000'
+
 
 describe('--- JUGADOR CONTROLLER TESTCASES ---', function () {
     it('LOGIN OK', function (done) {
-        chai.request('http://localhost:3000')
+        chai.request(URL)
             .post('/api/jugador/login')
             .send({
                 nick: "mkraitman",
@@ -20,7 +22,7 @@ describe('--- JUGADOR CONTROLLER TESTCASES ---', function () {
     })
 
     it('LOGIN ERROR', function (done) {
-        chai.request('http://localhost:3000')
+        chai.request(URL)
             .post('/api/jugador/login')
             .send({
                 nick: "badNick",
@@ -35,7 +37,7 @@ describe('--- JUGADOR CONTROLLER TESTCASES ---', function () {
     })
 
     it('TOP 5', function (done) {
-        chai.request('http://localhost:3000')
+        chai.request(URL)
             .get('/api/jugador/top5')
             .end(function (err, res) {
                 expect(res).to.have.status(200)
@@ -47,7 +49,7 @@ describe('--- JUGADOR CONTROLLER TESTCASES ---', function () {
 
     it('GET ALL JUGADORES BY NICK', function (done) {
         let jugador = "mkraitman"
-        chai.request('http://localhost:3000')
+        chai.request(URL)
 
             .get(`/api/jugador/jugadores/mkraitman`)
             .end(function (err, res) {
@@ -59,7 +61,7 @@ describe('--- JUGADOR CONTROLLER TESTCASES ---', function () {
     })
 
     it('GET ALL JUGADORES BY NICK ERROR', function (done) {
-        chai.request('http://localhost:3000')
+        chai.request(URL)
             .get('/api/jugador/jugadores/jugadorNoValido')
             .end(function (err, res) {
                 expect(res).to.have.status(400)

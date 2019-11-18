@@ -1,4 +1,3 @@
-import Model from '../../models/jugador-model'//mas adelante se validaran las estructuras
 const db = require('../../database/db-functions')
 
 function getAllJugadores() {

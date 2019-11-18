@@ -14,14 +14,6 @@ function createJugador(password, mail, nick, partidasJugadas, partidasGanadas) {
     return new Jugador(password, mail, nick, partidasJugadas, partidasGanadas)
 }
 
-function create(jugador) {
-    if (buscarJugador(jugador.nick) != null) {
-        jugadores.push(jugador)
-    } else {
-        throw new Error('Jugador ya existente')
-    }
-}
-
 async function getAllJugadoresByNick(nick) {
     return sacarJugador(nick)
 }

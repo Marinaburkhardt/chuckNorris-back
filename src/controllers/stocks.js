@@ -1,8 +1,7 @@
 import * as DAO from '../daos/daos-factory'
-import * as Swagger from './swagger'
 import StocksMemoryDAO from '../daos/daos-memory/stocks-memory-dao'
 
-const dao = DAO.getInstanceStocks('memory')
+// const dao = DAO.getInstanceStocks('memory')
 const express = require('express')
 const router = express.Router()
 

@@ -1,24 +1,31 @@
 import * as DAO from '../daos/daos-factory'
-import * as Swagger from './swagger'
-
-const dao = DAO.getInstancePartida('memory')
+let dotenv = require('dotenv')
+dotenv.config()
+const dao = DAO.getInstance(process.env.PERSISTENCE, 'partida')
 
 const express = require('express')
 const router = express.Router()
+
 /**
  * @swagger
- * /partida/partidas:
+ * /partida/partidas/{nick}:
  *   get:
- *     description: Retrieve an specific stock
+ *     description: Recibe un jugador y busca todas las partidas en las que participa
  *     tags:
  *       - partida
  *     produces:
  *       - application/json
+ *     parameters:
+ *       - name: nick
+ *         description: nick del jugador en relacion con las partidas
+ *         in: path
+ *         required: true
+ *         type: string
  *     responses:
  *       200:
- *         description: partida
+ *         description: partidas de un jugador
  *         schema:
- *           $ref: '#/definitions/Partidas'
+ *           $ref: '#/definitions/Partida'
  */
 router.get('/partidas/:nick', async (req, res, next) => {
     dao.getAllPartidasByNick(req.params.nick).then(result => {
@@ -29,59 +36,20 @@ router.get('/partidas/:nick', async (req, res, next) => {
 
 /**
  * @swagger
- * /partida/turnos/{id}:
- *   get:
- *     description: Devuelve todos los turnos de una partida
- *     tags:
- *       - partida
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: id
- *         description: id de la partida
- *         in: path
- *         required: true
- *         type: number
- *     responses:
- *       200:
- *         description: turno
- *         schema:
- *           $ref: '#/definitions/Turnos'
- */
-router.get('/turnos/:id', async (req, res) => {
-    const response = dao.
-        Swagger.validateModel('Partida', response)
-    res.send(response)
-})
-
-
-
-
-
-/**
- * @swagger
- * /partida:
+ * /comenzar:
  *   post:
- *     description: Crea una nueva partida
+ *     description: recibe dos jugadores y crea una partida entre ellos
  *     tags:
  *       - partida
  *     produces:
  *       - application/json
- *     parameters:
- *       - name: partida
- *         description: partida object
- *         in: body
- *         required: true
- *         schema:
- *           $ref: '#/definitions/Partida'
  *     responses:
  *       200:
- *         description: new partida
+ *         description: partida
  *         schema:
- *           $ref: '#/definitions/Partida'
+ *           $ref: '#/definitions/Jugador'
  */
 router.post('/comenzar', (req, res, next) => {
-    // Swagger.validateModel('Partida', req.body)
     let request = req.body
     dao.comenzarPartida(request.nickJugador1, request.nickJugador2).then(result => {
         console.log(result)
@@ -89,5 +57,38 @@ router.post('/comenzar', (req, res, next) => {
     })
 })
 
+
+/**
+ * @swagger
+ * /jugar/{nick}:
+ *   put:
+ *     description: recibe un jugador
+  *     tags:
+ *       - partida
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: nick
+ *         description: nick del jugador a jugar
+ *         in: path
+ *         required: true
+ *         type: string
+ *       - name: figura
+ *         description: figura que define el resultado de la ronda
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/Figura'
+ *     responses:
+ *       200:
+ *         description: jugado
+ *         schema:
+ *           $ref: '#/definitions/Partida'
+ */
+router.post('/jugar', (req, res, next) => {
+  
+    let result = dao.buscarPartidaById(3)
+    console.log(result)
+})
 
 module.exports = router

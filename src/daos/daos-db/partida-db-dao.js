@@ -1,6 +1,4 @@
-import Model from '../../models/partida-model' //mas adelatne se validaran las estructuras
 const db = require('../../database/db-functions')
-
 
 function getAllPartidasByNick(nick) {
     return db.execVarchar2('[dbo].[obtenerPartidasEnJuego]', 'nickJugador', nick)

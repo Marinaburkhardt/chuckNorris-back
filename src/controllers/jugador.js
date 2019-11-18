@@ -1,70 +1,81 @@
 import * as DAO from '../daos/daos-factory'
-import * as Swagger from './swagger'
 import ResponseError from '../models/response-error-model'
-const dao = DAO.getInstanceJugador('memory')
 const express = require('express')
 const router = express.Router()
 
-
+let dotenv = require('dotenv')
+dotenv.config()
+const dao = DAO.getInstance(process.env.PERSISTENCE, 'jugador')
 
 /**
  * @swagger
  * /login:
- *   get:
- *     description: valida la existencia y el ingreso de datos de un jugador
+ *   post:
+ *     description: valida el ingreso de datos de un jugador
  *     tags:
  *       - jugador
  *     produces:
  *       - application/json
+ *     parameters:
+ *       - name: nick
+ *         description: Nick del jugador
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/Stock'
+ *       - name: password
+ *         description: Contraseña del jugador
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/Stock'
  *     responses:
  *       200:
- *         description: Jugador
+ *         description: logged ok
  *         schema:
- *           $ref: '#/definitions/Jugadores'
- *       400:
- *         description: 
+ *           $ref: '#/definitions/Jugador'
  */
 router.post('/login', (req, res, next) => {
   dao.login(req.body.nick, req.body.password).then(result => {
     console.log(req.body.nick + req.body.password)
     console.log(result)
-    if(result == undefined){
+    if (result == undefined) {
       res.status(400)
       res.json(new ResponseError(400, "El usuario ingresado no existe"))
-    }else{
-      let resultado = { 
-        NickJugador : result.NickJugador,
-        Mail : result.Mail
+    } else {
+      let resultado = {
+        NickJugador: result.NickJugador,
+        Mail: result.Mail
       }
       res.json(resultado)
     }
   })
 })
 
-  /**
-   * @swagger
-   * /jugador/{id}:
-   *   get:
-   *     description: Devuelve un jugador especifico
-   *     tags:
-   *       - jugador
-   *     produces:
-   *       - application/json
-   *     parameters:
-   *       - name: id
-   *         description: identificador unico de jugador
-   *         in: path
-   *         required: true
-   *         type: number
-   *     responses:
-   *       200:
-   *         description: jugador
-   *         schema:
-   *           $ref: '#/definitions/Jugador'
-   */
+/**
+ * @swagger
+ * /jugador/jugadores/{id}:
+ *   get:
+ *     description: Recibe un nick y devuelve toda la lista de jugadores posibles a jugar
+ *     tags:
+ *       - jugador
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: nick
+ *         description: nick del jugador
+ *         in: path
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: jugadores encontrados
+ *         schema:
+ *           $ref: '#/definitions/Jugadores'
+ */
 router.get('/jugadores/:nick', async (req, res, next) => {
   dao.getAllJugadoresByNick(req.params.nick).then(result => {
-    if(result == "no encontrado"){
+    if (result == "no encontrado") {
       res.status(400)
       result = new ResponseError(400, "El jugador no se encuentra en la lista")
     }
@@ -72,6 +83,22 @@ router.get('/jugadores/:nick', async (req, res, next) => {
   })
 })
 
+
+/**
+ * @swagger
+ * /jugador/top5:
+ *   get:
+ *     description: Devuelve el top5 de jugadores
+ *     tags:
+ *       - jugador
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: top 5 de jugadores
+ *         schema:
+ *           $ref: '#/definitions/Jugadores'
+ */
 router.get('/top5', async (req, res, next) => {
   dao.getTop5().then(result => {
     console.log(result)
@@ -79,28 +106,6 @@ router.get('/top5', async (req, res, next) => {
   })
 })
 
-/**
- * @swagger
- * /jugador:
- *   post:
- *     description: Crea un nuevo jugador
- *     tags:
- *       - jugador
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: jugador
- *         description: jugador object
- *         in: body
- *         required: true
- *         schema:
- *           $ref: '#/definitions/Jugador'
- *     responses:
- *       200:
- *         description: new jugador
- *         schema:
- *           $ref: '#/definitions/Jugador'
- */
 router.post('/create', (req, res, next) => {
   console.log(req.body)
   res.send(req.body)
