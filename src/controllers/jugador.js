@@ -106,9 +106,5 @@ router.get('/top5', async (req, res, next) => {
   })
 })
 
-router.post('/create', (req, res, next) => {
-  console.log(req.body)
-  res.send(req.body)
-})
 
 module.exports = router

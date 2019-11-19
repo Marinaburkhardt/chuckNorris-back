@@ -8,7 +8,6 @@ import ResponseError from './models/response-error-model'
 
 const port = process.env.PORT
 
-var stocks = require('./controllers/stocks')
 var partida = require('./controllers/partida')
 var jugador = require('./controllers/jugador')
 var swagger = require('./swagger/swagger')
@@ -18,7 +17,6 @@ app.use(express.json())
 app.use(cors());
 app.use(logger('dev'))
 
-app.use('/api/stocks', stocks)
 app.use('/api/partida', partida)
 app.use('/api/jugador', jugador)
 app.use('/api/docs', swagger.router)

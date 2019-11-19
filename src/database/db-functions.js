@@ -16,7 +16,7 @@ function connectDB() {
 }
 
 /**
- * Ejecuta un store procedure con un parametro entero
+ * Ejecuta un stored procedure con un parametro entero
  * @param {*nombre del store procedure} procedure 
  * @param {*nombre del paramtero} param 
  * @param {*valor del parametro} int 
@@ -38,7 +38,7 @@ function execInt(procedure, param, int) {
 }
 
 /**
- * Ejecuta un store procedure con 2 parametros varchar
+ * Ejecuta un stored procedure con 2 parametros varchar
  * @param {*nombre del store procedure} procedure 
  * @param {*nombre del parametro} param 
  * @param {*valor del parametro} varchar 
@@ -60,8 +60,8 @@ function execVarchar2(procedure, param, varchar) {
 }
 
 /**
- * Ejecuta un store procedure con dos parametros varchar
- * @param {*nombre del store procedure} procedure 
+ * Ejecuta un stored procedure con dos parametros varchar
+ * @param {*nombre del stored procedure} procedure 
  * @param {*nombre del 1er parametro} param 
  * @param {*valor del 1er parametro} varchar 
  * @param {*nombre del 2do paramtro} param2 
@@ -85,6 +85,28 @@ function execVarchar(procedure, param, varchar, param2, varchar2) {
 }
 
 /**
+ * Ejecuta un stored procedure enviando un JSON como parametro
+ * @param {*nombre del stored procedure} procedure 
+ * @param {*nombre del parametro JSON} param 
+ * @param {*valor del JSON} json 
+ */
+function execJson(procedure, param, json) {
+    const connection = connectDB()
+    return connection.then(pool => {
+        return pool.request()
+            .input(param, JSON.stringify(json))
+            .execute(procedure)
+    })
+        .then(result => {
+            console.log(result)
+            return result.recordset
+        })
+        .catch(err => {
+            console.log('Query failed!', err)
+        })
+}
+
+/**
  * Envia una consulta a la base de datos. Puede ser generada previamente para agregar 
  * condiciones u otras instrucciones
  * @param {query que se envia a la base} query 
@@ -92,17 +114,17 @@ function execVarchar(procedure, param, varchar, param2, varchar2) {
 function query(query) {
     const connection = connectDB()
     return connection
-    .then(pool => {
-        return pool.request()
-        .query(query)
-    })
-    .then(result => {
-        console.log(result.recordsets[0])
-        return result.recordsets[0][0]
-    })
-    .catch(err => {
-        console.log('Query failed!', err)
-    })
+        .then(pool => {
+            return pool.request()
+                .query(query)
+        })
+        .then(result => {
+            console.log(result.recordsets[0])
+            return result.recordsets[0][0]
+        })
+        .catch(err => {
+            console.log('Query failed!', err)
+        })
 }
 
 
@@ -110,5 +132,6 @@ module.exports = {
     query,
     execInt,
     execVarchar,
-    execVarchar2
+    execVarchar2,
+    execJson
 }

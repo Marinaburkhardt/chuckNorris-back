@@ -1,4 +1,5 @@
 import * as DAO from '../daos/daos-factory'
+import ResponseError from '../models/response-error-model'
 let dotenv = require('dotenv')
 dotenv.config()
 const dao = DAO.getInstance(process.env.PERSISTENCE, 'partida')
@@ -60,6 +61,33 @@ router.post('/comenzar', (req, res, next) => {
 
 /**
  * @swagger
+ * /detalles/{idPartida}:
+ *   post:
+ *     description: recibe el id de una partida y devuelve detalles sobre ella
+ *     tags:
+ *       - partida
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: partida
+ *         schema:
+ *           $ref: '#/definitions/Jugador'
+ */
+router.get('/detalles/:idPartida', (req, res, next) => {
+    dao.obtenerDetalles(req.params.idPartida).then(result => {
+        if(result == undefined || result == '{"codigo":400, "mensaje":"El id de partida no existe"}'){
+            res.status(400)
+            result = new ResponseError(400, "El id de partida no existe")
+        }
+        console.log(result)
+        res.send(result)
+    })
+})
+
+
+/**
+ * @swagger
  * /jugar/{nick}:
  *   put:
  *     description: recibe un jugador
@@ -86,8 +114,13 @@ router.post('/comenzar', (req, res, next) => {
  *           $ref: '#/definitions/Partida'
  */
 router.post('/jugar', (req, res, next) => {
+    console.log(req.body)
+    let result = dao.jugar(req.body).then(result => {
+        console.log(result)
+    })
+
+
   
-    let result = dao.buscarPartidaById(3)
     console.log(result)
 })
 
