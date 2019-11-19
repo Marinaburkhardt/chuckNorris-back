@@ -2,8 +2,6 @@
 // correr set NODE_TLS_REJECT_UNAUTHORIZED=0
 const mailing = require('../mailing/mailing')
 
-let timeoutID;
-let turnoAntesDeMail;
 let comienzoPartidaOptions = {
 
     attachments: [
@@ -103,18 +101,6 @@ function envioMailChuck(jugador, accion) {
             jugadaPendienteOptions.to = jugador.mail
             jugadaPendienteOptions.html.replace("@Jugador", jugador.nick)
             mailing.enviarMail(jugadaPendienteOptions)
-
-            setTimeout (function mailPorPartidaPerdidaTimeout () {
-                //TO DO verificar numero de turno de partida actual con query a la DB
-                let timeoutID = 300000 //equivalente a 5min
-                let numeroTurnoActual;
-                if (numeroTurnoActual == turnoAntesDeMail) {
-                    mailing.enviarMail(timeoutOptions)
-                    //TO DO dar finalizada la partida
-                } else {
-                    clearTimeout(timeoutID)
-                }
-            },timeoutID)
             break;
 
         case 'ganaste':
@@ -127,6 +113,12 @@ function envioMailChuck(jugador, accion) {
             perdisteOptions.to = jugador.mail
             perdisteOptions.html.replace("@Jugador", jugador.nick)
             mailing.enviarMail(perdisteOptions)
+            break;
+
+        case 'perdisteTimeout':
+            perdisteOptions.to = jugador.mail
+            perdisteOptions.html.replace("@Jugador", jugador.nick)
+            mailing.enviarMail(timeoutOptions)
             break;
 
         default:
