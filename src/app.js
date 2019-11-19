@@ -1,20 +1,22 @@
 var express = require('express')
 var logger = require('morgan')
+var cors = require('cors');
+var dotenv = require('dotenv')
+dotenv.config()
 
+import ResponseError from './models/response-error-model'
 
-const port = 3000
+const port = process.env.PORT
 
-var stocks = require('./src/controllers/stocks')
-var swagger = require('./src/controllers/swagger')
-var partida = require('./src/controllers/partida')
-var jugador = require('./src/controllers/jugador')
-
+var partida = require('./controllers/partida')
+var jugador = require('./controllers/jugador')
+var swagger = require('./swagger/swagger')
 
 var app = express()
-
+app.use(express.json())
+app.use(cors());
 app.use(logger('dev'))
 
-app.use('/api/stocks', stocks)
 app.use('/api/partida', partida)
 app.use('/api/jugador', jugador)
 app.use('/api/docs', swagger.router)
@@ -31,24 +33,22 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
   console.error(`Error catched! ${err}`)
 
-  const error = {
-    status: err.status || 500,
-    message: err.message
-  }
+  let error = new ResponseError(err.status || 500, err.message)
+  status: err.status || 500
 
-  res.status(error.status).send(error)
+  res.status(error.codigo).send(error)
 })
 
-function onError (error) {
+function onError(error) {
   if (error.syscall !== 'listen') {
     throw error
   }
 
   const bind = typeof port === 'string'
-        ? 'Pipe ' + port
-        : 'Port ' + port
+    ? 'Pipe ' + port
+    : 'Port ' + port
 
-    // handle specific listen errors with friendly messages
+  // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
       console.error(bind + ' requires elevated privileges')
@@ -61,11 +61,11 @@ function onError (error) {
   }
 }
 
-function onListening () {
+function onListening() {
   const addr = app.address()
   const bind = typeof addr === 'string'
-        ? 'pipe ' + addr
-        : 'port ' + addr.port
+    ? 'pipe ' + addr
+    : 'port ' + addr.port
   console.log('\nListening on ' + bind)
 }
 

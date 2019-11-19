@@ -1,45 +1,47 @@
-import StocksMemoryDAO from './stocks-memory-dao'
-import JugadorMemoryDAO from './jugador-memory-dao'
-import PartidaMemoryDAO from './partida-memory-dao.js'
+import JugadorMemoryDAO from './daos-memory/jugador-memory-dao'
+import JugadorDBDAO from './daos-db/jugador-db-dao'
 
-let memoryDAOStock = null
+import PartidaMemoryDAO from './daos-memory/partida-memory-dao'
+import PartidaDBDAO from './daos-db/partida-db-dao'
+
 let memoryDAOJugador = null
 let memoryDAOPartida = null
 
-
-
-function getInstanceStocks(type) {
-  if (type === 'memory') {
-    if (memoryDAOStock === null) {
-      memoryDAOStock = new StocksMemoryDAO()
-    }
-    return memoryDAOStock
-  }
-  throw new Error('Unknown DAO type ' + type)
+function isInstantiated(obj) {
+  let result = false
+  obj = null ? result = false : result = true
+  return result
 }
 
-function getInstanceJugador(type) {
-  if (type === 'memory') {
-    if (memoryDAOJugador === null) {
-      memoryDAOJugador = new JugadorMemoryDAO()
-    }
-    return memoryDAOJugador
-  }
-  throw new Error('Unknown DAO type ' + type)
-}
+function getInstance(type, dao) {
+  let instance
+  if (type == 'memory') {
+    switch (dao) {
+      case 'jugador':
+        isInstantiated(JugadorMemoryDAO) ? instance = JugadorMemoryDAO : instance = memoryDAOJugador
+        break
 
-function getInstancePartida(type) {
-  if (type === 'memory') {
-    if (memoryDAOPartida === null) {
-      memoryDAOPartida = new PartidaMemoryDAO()
+      case 'partida':
+        isInstantiated(PartidaMemoryDAO) ? instance = PartidaMemoryDAO : instance = memoryDAOPartida
+        break
     }
-    return memoryDAOPartida
+
+  } else if (type == 'db') {
+
+    switch (dao) {
+      case 'jugador':
+        instance = JugadorDBDAO
+        break
+
+      case 'partida':
+        instance = PartidaDBDAO
+        break
+    }
+
   }
-  throw new Error('Unknown DAO type ' + type)
+  return instance
 }
 
 module.exports = {
-  getInstanceJugador,
-  getInstanceStocks,
-  getInstancePartida
+  getInstance
 }

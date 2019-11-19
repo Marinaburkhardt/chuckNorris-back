@@ -22,11 +22,12 @@ const options = {
     basePath: '/api'
   },
   apis: [
-    './api/controllers/*',
-    './api/models/stock-model.js',
-    './api/models/jugador-model.js',
-    './api/models/turno-model.js',
-    './api/models/partida-model.js'],
+    './src/controllers/*',
+    './src/models/stock-model.js',
+    // './api/models/jugador-model.js',
+    // './api/models/turno-model.js',
+    // './api/models/partida-model.js'
+  ],
 }
 
 const swaggerJSDoc = require('swagger-jsdoc')
@@ -41,7 +42,7 @@ router.get('/json', function (req, res) {
 
 router.use('/', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
-function validateModel (name, model) {
+function validateModel(name, model) {
   const responseValidation = swaggerSpec.validateModel(name, model, false, true)
   if (!responseValidation.valid) {
     console.error(responseValidation.errors)
