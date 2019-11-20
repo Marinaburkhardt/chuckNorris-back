@@ -8,13 +8,16 @@ let partidaDB = require ('../../daos/daos-db/partida-db-dao')
  * @param {*} idPartida identificador de la partida en juego
  */
 function reivisarTimeoutPartida(ulitmoJugador, proximoJugador, idPartida, turnoAntesDeRevision) {
-
-    partidaDB.obtenerDetalles(idPartida).then(result => {
-        let turno = result[0][0].length;
-        let ultimoTurnoActual = turno.NumeroTurno;
+    
+    partidaDB.obtenerDetalles(idPartida).then(res => {
+        response = {};
+        response = res;
+        let parseado = JSON.parse(response);
+        // console.log(parseado[1][0]['NumeroTurno']);
+        let ultimoTurnoActual = parseado[1][0]['NumeroTurno']
         
         setTimeout (function(){
-            if (idJugadaProximoJugador == null && turnoAntesDeRevision != ultimoTurnoActual){
+            if (turnoAntesDeRevision != ultimoTurnoActual){
                 mailingChuck.envioMailChuck(proximoJugador,'perdisteTimeout')
                 mailingChuck.envioMailChuck(ulitmoJugador,'ganaste')
                 //setear partida finalizada en controlador
@@ -22,8 +25,6 @@ function reivisarTimeoutPartida(ulitmoJugador, proximoJugador, idPartida, turnoA
                 clearTimeout(timeoutID)   
             }
         }, timeoutID)
-    
-    } )
-
-    
+    })
 }
+
