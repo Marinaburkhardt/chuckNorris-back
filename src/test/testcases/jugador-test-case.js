@@ -15,7 +15,7 @@ describe('--- JUGADOR CONTROLLER TESTCASES ---', function () {
             })
             .end(function (err, res) {
                 expect(res).to.have.status(200)
-                expect(res.body).to.have.property('NickJugador').to.be.equal("mkraitman")
+                expect(res.body).to.have.property('NickJugador').to.be.equal("mkrman")
                 expect(res.body).to.have.property('Mail').to.be.equal("mkraitman@gmail.com")
                 done()
             })

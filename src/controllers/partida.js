@@ -1,6 +1,10 @@
 import * as DAO from '../daos/daos-factory'
 import ResponseError from '../models/response-error-model'
 let dotenv = require('dotenv')
+
+let mailChuck = require('../services/mailingChuck/mailChuck')
+let timeOut = require('../services/timeout/timeout')
+
 dotenv.config()
 const dao = DAO.getInstance(process.env.PERSISTENCE, 'partida')
 
@@ -25,8 +29,6 @@ const router = express.Router()
  *     responses:
  *       200:
  *         description: partidas de un jugador
- *         schema:
- *           $ref: '#/definitions/Partida'
  */
 router.get('/partidas/:nick', async (req, res, next) => {
     dao.getAllPartidasByNick(req.params.nick).then(result => {
@@ -47,13 +49,15 @@ router.get('/partidas/:nick', async (req, res, next) => {
  *     responses:
  *       200:
  *         description: partida
- *         schema:
- *           $ref: '#/definitions/Jugador'
  */
 router.post('/comenzar', (req, res, next) => {
-    let request = req.body
-    dao.comenzarPartida(request.nickJugador1, request.nickJugador2).then(result => {
-        console.log(result)
+
+    console.log(req.body)
+    dao.comenzarPartida(req.body.nickJugador1, req.body.nickJugador2).then(result => {
+        if (result == undefined) {
+            result = new ResponseError(400, "Jugador no existente")
+            res.status(400)
+        }
         res.send(result)
     })
 })
@@ -71,12 +75,10 @@ router.post('/comenzar', (req, res, next) => {
  *     responses:
  *       200:
  *         description: partida
- *         schema:
- *           $ref: '#/definitions/Jugador'
  */
 router.get('/detalles/:idPartida', (req, res, next) => {
     dao.obtenerDetalles(req.params.idPartida).then(result => {
-        if(result == undefined || result == '{"codigo":400, "mensaje":"El id de partida no existe"}'){
+        if (result == undefined || result == '{"codigo":400, "mensaje":"El id de partida no existe"}') {
             res.status(400)
             result = new ResponseError(400, "El id de partida no existe")
         }
@@ -105,23 +107,32 @@ router.get('/detalles/:idPartida', (req, res, next) => {
  *         description: figura que define el resultado de la ronda
  *         in: body
  *         required: true
- *         schema:
- *           $ref: '#/definitions/Figura'
  *     responses:
  *       200:
  *         description: jugado
- *         schema:
- *           $ref: '#/definitions/Partida'
  */
-router.post('/jugar', (req, res, next) => {
+router.put('/jugar', (req, res, next) => {
     console.log(req.body)
-    let result = dao.jugar(req.body).then(result => {
-        console.log(result)
+    dao.jugar(req.body).then(resultJugada => {
+
+        dao.obtenerDetalles(req.body.IdPartida).then(detalle => {
+            
+            detalle[1][0]["nickJugadorJugada"]
+
+            //validar ganador si es el segundo jugador el que juega
+
+            //nick jugador ganador partida = 0 gana jugador 1, 1 gana jugador 2, null sigue la partida
+            //turno mkraitman o edditrana
+
+            let jugador = {
+                nick: 'mkraitman',
+                mail: 'mkraitman@gmail.com'
+            }
+            res.send(resultJugada)
+          
+            // timeOut.reivisarTimeoutPartida(jugador, jugador, 1, 1)
+        })
     })
-
-
-  
-    console.log(result)
 })
 
 module.exports = router

@@ -21,19 +21,13 @@ const dao = DAO.getInstance(process.env.PERSISTENCE, 'jugador')
  *         description: Nick del jugador
  *         in: body
  *         required: true
- *         schema:
- *           $ref: '#/definitions/Stock'
  *       - name: password
  *         description: Contraseña del jugador
  *         in: body
  *         required: true
- *         schema:
- *           $ref: '#/definitions/Stock'
  *     responses:
  *       200:
  *         description: logged ok
- *         schema:
- *           $ref: '#/definitions/Jugador'
  */
 router.post('/login', (req, res, next) => {
   dao.login(req.body.nick, req.body.password).then(result => {
@@ -70,10 +64,10 @@ router.post('/login', (req, res, next) => {
  *     responses:
  *       200:
  *         description: jugadores encontrados
- *         schema:
- *           $ref: '#/definitions/Jugadores'
  */
 router.get('/jugadores/:nick', async (req, res, next) => {
+
+
   dao.getAllJugadoresByNick(req.params.nick).then(result => {
     if (result == "no encontrado") {
       res.status(400)
@@ -96,8 +90,6 @@ router.get('/jugadores/:nick', async (req, res, next) => {
  *     responses:
  *       200:
  *         description: top 5 de jugadores
- *         schema:
- *           $ref: '#/definitions/Jugadores'
  */
 router.get('/top5', async (req, res, next) => {
   dao.getTop5().then(result => {

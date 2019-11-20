@@ -71,7 +71,6 @@ async function buscarJugador(nick, password) {
         }
     }
     return jugador
-
 }
 
 module.exports = {

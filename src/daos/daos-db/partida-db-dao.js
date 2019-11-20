@@ -9,7 +9,7 @@ function comenzarPartida(nickJugador1, nickJugador2) {
 }
 
 function jugar(json) {
-    return db.execJson('[dbo].[jugar]','jsonJugada' , json)
+    return db.execJson('[dbo].[jugar]', 'jsonJugada' , json)
 }
 
 function obtenerDetalles(idPartida){

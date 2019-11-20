@@ -99,7 +99,7 @@ function execJson(procedure, param, json) {
     })
         .then(result => {
             console.log(result)
-            return result.recordset
+            return result.recordset[0][""]
         })
         .catch(err => {
             console.log('Query failed!', err)

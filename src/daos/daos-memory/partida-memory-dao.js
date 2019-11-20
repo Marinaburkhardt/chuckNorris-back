@@ -70,7 +70,6 @@ function obtenerDetalles(idPartida) {
 
 //         } else {
 //             console.log("juega el jugador 2")
-
 //         }
 //     }
 // }
