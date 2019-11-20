@@ -28,3 +28,4 @@ function reivisarTimeoutPartida(ulitmoJugador, proximoJugador, idPartida, turnoA
     })
 }
 
+module.exports = { reivisarTimeoutPartida }
