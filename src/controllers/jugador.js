@@ -94,7 +94,7 @@ router.get('/jugadores/:nick', async (req, res, next) => {
 router.get('/top5', async (req, res, next) => {
   dao.getTop5().then(result => {
     console.log(result)
-    res.send(result)
+    res.send(JSON.parse(result))
   })
 })
 
