@@ -194,9 +194,9 @@ router.post('/jugar/:nick', (req, res, next) => {
         console.log("----JUGADA JUGADOR 2----")
         //--------- set ganador Turno ---------
         let ganadorTurno;
-    
+
         let resultadoTurno = gameFunctions.comparar(ultimoTurno.IdFigura1, envioFront.IdFigura)
-        
+
         console.log("SE COMPARA " + ultimoTurno.IdFigura1, envioFront.IdFigura)
         if (resultadoTurno == 1) {
             ganadorTurno = detallesPartida.NickJugador
@@ -215,11 +215,10 @@ router.post('/jugar/:nick', (req, res, next) => {
             NumeroTurno: ultimoTurno.NumeroTurno,
             NickJugadorJugada: req.params.nick,
             IdFigura: envioFront.IdFigura,
-            NickJugadorGanadorPartida: 1,
-            //gameFunctions.isPartidaTerminada(turnos, detallesPartida.NickJugador, detallesPartida.NickJugador2, ganadorTurno)
+            NickJugadorGanadorPartida: gameFunctions.isPartidaTerminada(turnos, detallesPartida.NickJugador, detallesPartida.NickJugador2, ganadorTurno),
             NickJugadorGanador: ganadorTurno
         }
-        
+
     }
 
     console.log("\n \n \n Se le esta enviando a la base la siguiente informacion \n " + JSON.stringify(paramJson))
