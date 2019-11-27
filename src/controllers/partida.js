@@ -195,7 +195,7 @@ router.post('/jugar/:nick', (req, res, next) => {
         }
 
         let jugador2 = {
-            nick: detallesPartida.NickJugador,
+            nick: detallesPartida.NickJugador2,
             mail: detallesPartida.MailJugador2
         }
         mailChuck.envioMailChuck(jugador2, 'jugadaPendiente')
