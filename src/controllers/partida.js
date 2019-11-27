@@ -23,7 +23,7 @@ const router = express.Router()
 //       IdFigura2: 3,
 //       Jugada2: 'Tijera',
 //       JugadorPorJugar: null,
-//       NickJugadorGanador: 'mkraitman'
+//       NickJugadorGanador: 'edditrana'
 //     },
 //     {
 //       IdTurno: 45,
@@ -40,7 +40,7 @@ const router = express.Router()
 //   ]
 
 
-// let isTerminada = gameFunctions.isPartidaTerminada(turnos, 'mkraitman', 'edditrana', 'mkraitman' )
+// let isTerminada = gameFunctions.isPartidaTerminada(turnos, 'mkraitman', 'edditrana', 'edditrana' )
 //         console.log(isTerminada)
 
 
@@ -197,7 +197,7 @@ router.post('/jugar/:nick', (req, res, next) => {
     
         let resultadoTurno = gameFunctions.comparar(ultimoTurno.IdFigura1, envioFront.IdFigura)
         
-        console.log("SE COMPARA " + ultimoTurno.Jugada1, envioFront.IdFigura)
+        console.log("SE COMPARA " + ultimoTurno.IdFigura1, envioFront.IdFigura)
         if (resultadoTurno == 1) {
             ganadorTurno = detallesPartida.NickJugador
         } else if (resultadoTurno == -1) {
@@ -215,9 +215,11 @@ router.post('/jugar/:nick', (req, res, next) => {
             NumeroTurno: ultimoTurno.NumeroTurno,
             NickJugadorJugada: req.params.nick,
             IdFigura: envioFront.IdFigura,
-            NickJugadorGanadorPartida: gameFunctions.isPartidaTerminada(turnos, detallesPartida.NickJugador, detallesPartida.NickJugador2, ganadorTurno),
+            NickJugadorGanadorPartida: 1,
+            //gameFunctions.isPartidaTerminada(turnos, detallesPartida.NickJugador, detallesPartida.NickJugador2, ganadorTurno)
             NickJugadorGanador: ganadorTurno
         }
+        
     }
 
     console.log("\n \n \n Se le esta enviando a la base la siguiente informacion \n " + JSON.stringify(paramJson))

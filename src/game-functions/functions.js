@@ -134,8 +134,8 @@ function isPartidaTerminada(turnos, nickJugador1, nickJugador2, ganadorTurnoActu
         if (turnos[i].NickJugadorGanador == nickJugador1) {
             console.log(turnos[i].NickJugadorGanador)
             j1++
-        } else if (turnos[i].NickJugadorGanador2 == nickJugador2) {
-            console.log(turnos[i].NickJugadorGanador2)
+        } else if (turnos[i].NickJugadorGanador == nickJugador2) {
+            console.log(turnos[i].NickJugadorGanador)
             j2++
         }
         i++
