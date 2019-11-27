@@ -12,6 +12,41 @@ const dao = DAO.getInstance(process.env.PERSISTENCE, 'partida')
 const express = require('express')
 const router = express.Router()
 
+// let turnos = [
+//     {
+//       IdTurno: 44,
+//       NumeroTurno: 1,
+//       IdJugadaPorJugador: 70,
+//       IdFigura1: 1,
+//       Jugada1: 'Piedra',
+//       IdJugadaPorJugador2: 71,
+//       IdFigura2: 3,
+//       Jugada2: 'Tijera',
+//       JugadorPorJugar: null,
+//       NickJugadorGanador: 'mkraitman'
+//     },
+//     {
+//       IdTurno: 45,
+//       NumeroTurno: 2,
+//       IdJugadaPorJugador: 72,
+//       IdFigura1: 1,
+//       Jugada1: 'Piedra',
+//       IdJugadaPorJugador2: 73,
+//       IdFigura2: 3,
+//       Jugada2: 'Tijera',
+//       JugadorPorJugar: null,
+//       NickJugadorGanador: 'edditrana'
+//     }
+//   ]
+
+
+// let isTerminada = gameFunctions.isPartidaTerminada(turnos, 'mkraitman', 'edditrana', 'mkraitman' )
+//         console.log(isTerminada)
+
+
+
+
+
 /**
  * @swagger
  * /partida/partidas/{nick}:
@@ -130,9 +165,6 @@ router.post('/jugar/:nick', (req, res, next) => {
 
     console.log("ENVIO FRONT ......" + JSON.stringify(envioFront))
 
-
-
-
     //recibo los detalles de ultimo turno para poder enviar los datos necesarios
 
     console.log(detallesPartida)
@@ -149,7 +181,7 @@ router.post('/jugar/:nick', (req, res, next) => {
         paramJson = {
             IdPartida: detallesPartida.IdPartida,
             IdTurno: ultimoTurno.IdTurno,
-            NumeroTurno: envioFront.NumeroTurno,
+            NumeroTurno: ultimoTurno.NumeroTurno,
             NickJugadorJugada: req.params.nick,
             IdFigura: envioFront.IdFigura,
             NickJugadorGanadorPartida: null,
@@ -163,8 +195,9 @@ router.post('/jugar/:nick', (req, res, next) => {
         //--------- set ganador Turno ---------
         let ganadorTurno;
     
-        let resultadoTurno = gameFunctions.comparar(ultimoTurno.Jugada1, envioFront.IdFigura)
-
+        let resultadoTurno = gameFunctions.comparar(ultimoTurno.IdFigura1, envioFront.IdFigura)
+        
+        console.log("SE COMPARA " + ultimoTurno.Jugada1, envioFront.IdFigura)
         if (resultadoTurno == 1) {
             ganadorTurno = detallesPartida.NickJugador
         } else if (resultadoTurno == -1) {
@@ -174,18 +207,15 @@ router.post('/jugar/:nick', (req, res, next) => {
         }
 
         //--------- terminar partida ---------
-        let resultadoPartida = null
-        if (gameFunctions.isPartidaTerminada(turnos, detallesPartida.nickJugador1, detallesPartida.nickJugador2, ganadorTurno )) {
-            resultadoPartida = gameFunctions.calcularGanador(turnos, detallesPartida.NickJugador, detallesPartida.NickJugador2)
-        }
+
         //-------------------------------------
         paramJson = {
             IdPartida: detallesPartida.IdPartida,
             IdTurno: ultimoTurno.IdTurno,
-            NumeroTurno: envioFront.NumeroTurno,
+            NumeroTurno: ultimoTurno.NumeroTurno,
             NickJugadorJugada: req.params.nick,
             IdFigura: envioFront.IdFigura,
-            NickJugadorGanadorPartida: resultadoPartida,
+            NickJugadorGanadorPartida: gameFunctions.isPartidaTerminada(turnos, detallesPartida.NickJugador, detallesPartida.NickJugador2, ganadorTurno),
             NickJugadorGanador: ganadorTurno
         }
     }

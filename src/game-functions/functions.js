@@ -33,10 +33,6 @@ function comparar(figura1, figura2) {
     return result
 }
 
-
-
-
-
 /**
  * 
  * @param {tipoFigura} figura 
@@ -125,28 +121,39 @@ function calcularGanador(turnos, nickJugador1, nickJugador2) {
 
 function isPartidaTerminada(turnos, nickJugador1, nickJugador2, ganadorTurnoActual) {
     let terminada = false; let j1 = 0; let j2 = 0; let i = 0
-
+    console.log("ESTAN JUGANDO " + nickJugador1 + "  y  " + nickJugador2)
     if (nickJugador1 == ganadorTurnoActual) {
         j1 = 1
     } else {
-        j2 = 2
+        j2 = 1
     }
+    console.log("CANT TURNOS = " + turnos.length + " MAS EL ACUTAL * +1")
+    while (i < turnos.length) {
+        console.log(" j1 = " + j1 + "   " + "j2 = " + j2 + "   TURNO: " + (i + 1))
 
-    
-    while (i < turnos.length && terminada) {
-        if (j1 < 2 || j2 < 2) {
-            if (turnos[i].NickJugadorGanador == nickJugador1) {
-                j1++
-            } else if (turnos[i].nickJugadorGanador == nickJugador2) {
-                j2++
-            } else { }
-            i++
-        } else {
-            terminada = true
+        if (turnos[i].NickJugadorGanador == nickJugador1) {
+            console.log(turnos[i].NickJugadorGanador)
+            j1++
+        } else if (turnos[i].NickJugadorGanador2 == nickJugador2) {
+            console.log(turnos[i].NickJugadorGanador2)
+            j2++
         }
+        i++
+    }
+    let result
+
+    if (j1 == 3) {
+        result = 0
+    } else if (j2 == 3) {
+        result = 1
+    } else {
+        result = null
     }
 
-    return terminada
+    console.log("JUGADOR 1 TIENE " + j1 + " turnos ganados y JUGADOR 2 TIENE " + j2)
+
+    console.log(" EL RESULTADO ES ======>" + result)
+    return result
 }
 
 
@@ -155,9 +162,8 @@ function isPartidaTerminada(turnos, nickJugador1, nickJugador2, ganadorTurnoActu
 
 module.exports = {
     comparar,
-    tipoFigura,
-    esFiguraValida,
-    isPartidaTerminada
+    isPartidaTerminada,
+    calcularGanador
 }
 
 
