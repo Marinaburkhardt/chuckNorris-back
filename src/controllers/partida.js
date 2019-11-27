@@ -94,6 +94,13 @@ router.post('/comenzar', (req, res, next) => {
             result = new ResponseError(400, "Jugador no existente")
             res.status(400)
         }
+      
+        let jugador2 = {
+            nick: req.body.nickJugador2,
+            mail: req.body.MailJugador2
+        }
+        mailChuck.envioMailChuck(jugador2, 'comienzo')
+
         res.send(result)
     })
 })
@@ -169,7 +176,6 @@ router.post('/jugar/:nick', (req, res, next) => {
 
     console.log(detallesPartida)
     let tamaño = turnos.length
-
     let ultimoTurno = req.body[1]["Turnos"][tamaño - 1]
     console.log(ultimoTurno)
 
@@ -188,6 +194,13 @@ router.post('/jugar/:nick', (req, res, next) => {
             NickJugadorGanador: null
         }
 
+        let jugador2 = {
+            nick: detallesPartida.NickJugador,
+            mail: detallesPartida.MailJugador2
+        }
+        mailChuck.envioMailChuck(jugador2, 'jugadaPendiente')
+
+
     } else if (req.params.nick == detallesPartida.NickJugador2) {
 
         //caso de jugador 2
@@ -196,6 +209,12 @@ router.post('/jugar/:nick', (req, res, next) => {
         let ganadorTurno;
 
         let resultadoTurno = gameFunctions.comparar(ultimoTurno.IdFigura1, envioFront.IdFigura)
+
+        let jugador = {
+            nick: detallesPartida.NickJugador,
+            mail: detallesPartida.MailJugador1
+        }
+
 
         console.log("SE COMPARA " + ultimoTurno.IdFigura1, envioFront.IdFigura)
         if (resultadoTurno == 1) {
@@ -206,16 +225,37 @@ router.post('/jugar/:nick', (req, res, next) => {
             ganadorTurno = null
         }
 
-        //--------- terminar partida ---------
+        let jugador1 = {
+            nick: detallesPartida.NickJugador,
+            mail: detallesPartida.MailJugador1
+        }
 
-        //-------------------------------------
+        let jugador2 = {
+            nick: detallesPartida.NickJugador2,
+            mail: detallesPartida.MailJugador2
+        }
+
+        let ganadorPartida = gameFunctions.isPartidaTerminada(turnos, detallesPartida.NickJugador, detallesPartida.NickJugador2, ganadorTurno)
+
+        if (ganadorPartida == 0) {
+            mailChuck.envioMailChuck(jugador1, 'ganaste')
+            mailChuck.envioMailChuck(jugador2, 'perdiste')
+        } else if (ganadorPartida == 1) {
+            mailChuck.envioMailChuck(jugador1, 'perdiste')
+            mailChuck.envioMailChuck(jugador2, 'ganaste')
+        } else {
+            mailChuck.envioMailChuck(jugador1, 'jugadaPendiente')
+
+        }
+
+
         paramJson = {
             IdPartida: detallesPartida.IdPartida,
             IdTurno: ultimoTurno.IdTurno,
             NumeroTurno: ultimoTurno.NumeroTurno,
             NickJugadorJugada: req.params.nick,
             IdFigura: envioFront.IdFigura,
-            NickJugadorGanadorPartida: gameFunctions.isPartidaTerminada(turnos, detallesPartida.NickJugador, detallesPartida.NickJugador2, ganadorTurno),
+            NickJugadorGanadorPartida: ganadorPartida,
             NickJugadorGanador: ganadorTurno
         }
 

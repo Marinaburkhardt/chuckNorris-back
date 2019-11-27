@@ -105,7 +105,7 @@ function calcularGanador(turnos, nickJugador1, nickJugador2) {
         } else if (nickJugador2 == turno.NickJugadorGanador) {
             cantTurnosJug2++
         } else if (turno.NickJugadorGanador == null) {
-            //nada
+            //empate osea no se incrementa nada
         }
     })
     if (cantTurnosJug1 > cantTurnosJug2) {
@@ -120,7 +120,7 @@ function calcularGanador(turnos, nickJugador1, nickJugador2) {
 
 
 function isPartidaTerminada(turnos, nickJugador1, nickJugador2, ganadorTurnoActual) {
-    let terminada = false; let j1 = 0; let j2 = 0; let i = 0
+    let terminada = false; let j1 = 0; let j2 = 0; let i = 0; const MAX_TURNOS_GANADOS = 2
     console.log("ESTAN JUGANDO " + nickJugador1 + "  y  " + nickJugador2)
     if (nickJugador1 == ganadorTurnoActual) {
         j1 = 1
@@ -142,9 +142,9 @@ function isPartidaTerminada(turnos, nickJugador1, nickJugador2, ganadorTurnoActu
     }
     let result
 
-    if (j1 == 3) {
+    if (j1 == MAX_TURNOS_GANADOS) {
         result = 0
-    } else if (j2 == 3) {
+    } else if (j2 == MAX_TURNOS_GANADOS) {
         result = 1
     } else {
         result = null
