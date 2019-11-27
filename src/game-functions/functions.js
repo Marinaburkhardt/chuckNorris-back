@@ -123,10 +123,6 @@ function calcularGanador(turnos, nickJugador1, nickJugador2) {
 }
 
 
-
-
-
-
 function isPartidaTerminada(turnos, nickJugador1, nickJugador2, ganadorTurnoActual) {
     let terminada = false; let j1 = 0; let j2 = 0; let i = 0
 

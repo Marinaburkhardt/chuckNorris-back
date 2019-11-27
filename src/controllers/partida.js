@@ -12,10 +12,6 @@ const dao = DAO.getInstance(process.env.PERSISTENCE, 'partida')
 const express = require('express')
 const router = express.Router()
 
-
-console.log("----------------" + gameFunctions.comparar(3, 1))
-
-
 /**
  * @swagger
  * /partida/partidas/{nick}:
@@ -127,7 +123,6 @@ router.post('/jugar/:nick', (req, res, next) => {
     let envioFront = req.body[2]
 
     console.log("ESTA JUGANDO EL JUGADOR ....... " + req.params.nick)
-
 
     console.log("DETALLES ......" + JSON.stringify(detallesPartida))
 
