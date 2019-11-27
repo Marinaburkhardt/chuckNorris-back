@@ -2,6 +2,7 @@ import * as DAO from '../daos/daos-factory'
 import ResponseError from '../models/response-error-model'
 let dotenv = require('dotenv')
 
+const gameFunctions = require('../game-functions/functions')
 let mailChuck = require('../services/mailingChuck/mailChuck')
 let timeOut = require('../services/timeout/timeout')
 
@@ -10,6 +11,10 @@ const dao = DAO.getInstance(process.env.PERSISTENCE, 'partida')
 
 const express = require('express')
 const router = express.Router()
+
+
+console.log("----------------" + gameFunctions.comparar(3, 1))
+
 
 /**
  * @swagger
@@ -62,7 +67,6 @@ router.post('/comenzar', (req, res, next) => {
     })
 })
 
-
 /**
  * @swagger
  * /detalles/{idPartida}:
@@ -77,13 +81,16 @@ router.post('/comenzar', (req, res, next) => {
  *         description: partida
  */
 router.get('/detalles/:idPartida', (req, res, next) => {
-    dao.obtenerDetalles(req.params.idPartida).then(result => {
-        if (result == undefined || result == '{"codigo":400, "mensaje":"El id de partida no existe"}') {
+    dao.obtenerDetalles(req.params.idPartida).then(detalles => {
+
+        if (detalles == undefined || detalles == '{"codigo":400, "mensaje":"El id de partida no existe"}') {
             res.status(400)
             result = new ResponseError(400, "El id de partida no existe")
         }
-        console.log(result)
-        res.send(result)
+
+        detalles = JSON.parse(detalles)
+        console.log(detalles)
+        res.send(detalles)
     })
 })
 
@@ -91,7 +98,7 @@ router.get('/detalles/:idPartida', (req, res, next) => {
 /**
  * @swagger
  * /jugar/{nick}:
- *   put:
+ *   post:
  *     description: recibe un jugador
   *     tags:
  *       - partida
@@ -111,27 +118,87 @@ router.get('/detalles/:idPartida', (req, res, next) => {
  *       200:
  *         description: jugado
  */
-router.put('/jugar', (req, res, next) => {
-    console.log(req.body)
-    dao.jugar(req.body).then(resultJugada => {
 
-        dao.obtenerDetalles(req.body.IdPartida).then(detalle => {
-            
-            detalle[1][0]["nickJugadorJugada"]
+router.post('/jugar/:nick', (req, res, next) => {
 
-            //validar ganador si es el segundo jugador el que juega
+    let paramJson //variable que se va aenviar como parametro al sp
+    let detallesPartida = req.body[0]
+    let turnos = req.body[1]["Turnos"]
+    let envioFront = req.body[2]
 
-            //nick jugador ganador partida = 0 gana jugador 1, 1 gana jugador 2, null sigue la partida
-            //turno mkraitman o edditrana
+    console.log("ESTA JUGANDO EL JUGADOR ....... " + req.params.nick)
 
-            let jugador = {
-                nick: 'mkraitman',
-                mail: 'mkraitman@gmail.com'
-            }
-            res.send(resultJugada)
-          
-            // timeOut.reivisarTimeoutPartida(jugador, jugador, 1, 1)
-        })
+
+    console.log("DETALLES ......" + JSON.stringify(detallesPartida))
+
+    console.log("TURNOS ......" + JSON.stringify(turnos))
+
+    console.log("ENVIO FRONT ......" + JSON.stringify(envioFront))
+
+
+
+
+    //recibo los detalles de ultimo turno para poder enviar los datos necesarios
+
+    console.log(detallesPartida)
+    let tamaño = turnos.length
+
+    let ultimoTurno = req.body[1]["Turnos"][tamaño - 1]
+    console.log(ultimoTurno)
+
+
+    if (req.params.nick == detallesPartida.NickJugador) {
+        //caso jugador 1
+        console.log("----JUGADA JUGADOR 1----")
+        // datos seteados = figura jugada de jugador 1
+        paramJson = {
+            IdPartida: detallesPartida.IdPartida,
+            IdTurno: ultimoTurno.IdTurno,
+            NumeroTurno: envioFront.NumeroTurno,
+            NickJugadorJugada: req.params.nick,
+            IdFigura: envioFront.IdFigura,
+            NickJugadorGanadorPartida: null,
+            NickJugadorGanador: null
+        }
+
+    } else if (req.params.nick == detallesPartida.NickJugador2) {
+
+        //caso de jugador 2
+        console.log("----JUGADA JUGADOR 2----")
+        //--------- set ganador Turno ---------
+        let ganadorTurno;
+    
+        let resultadoTurno = gameFunctions.comparar(ultimoTurno.Jugada1, envioFront.IdFigura)
+
+        if (resultadoTurno == 1) {
+            ganadorTurno = detallesPartida.NickJugador
+        } else if (resultadoTurno == -1) {
+            ganadorTurno = detallesPartida.NickJugador2
+        } else if (resultadoTurno == 0) {
+            ganadorTurno = null
+        }
+
+        //--------- terminar partida ---------
+        let resultadoPartida = null
+        if (gameFunctions.isPartidaTerminada(turnos, detallesPartida.nickJugador1, detallesPartida.nickJugador2, ganadorTurno )) {
+            resultadoPartida = gameFunctions.calcularGanador(turnos, detallesPartida.NickJugador, detallesPartida.NickJugador2)
+        }
+        //-------------------------------------
+        paramJson = {
+            IdPartida: detallesPartida.IdPartida,
+            IdTurno: ultimoTurno.IdTurno,
+            NumeroTurno: envioFront.NumeroTurno,
+            NickJugadorJugada: req.params.nick,
+            IdFigura: envioFront.IdFigura,
+            NickJugadorGanadorPartida: resultadoPartida,
+            NickJugadorGanador: ganadorTurno
+        }
+    }
+
+    console.log("\n \n \n Se le esta enviando a la base la siguiente informacion \n " + JSON.stringify(paramJson))
+
+    dao.jugar(paramJson).then(result => {
+        res.send(result)
     })
 })
 

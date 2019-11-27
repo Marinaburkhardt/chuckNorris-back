@@ -17,7 +17,6 @@ function login(nick, password) {
     console.log(query)
     return db.query(query)
 }
-
 //SELECT * FROM jugador WHERE NickJugador = 'mkraitman' AND Contraseña = '213a'
 
 module.exports = {
