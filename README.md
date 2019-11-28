@@ -1,7 +1,7 @@
 About
 =====
 
-Project showing how to setup Swagger for a REST API develop with Node.js and Express.
+Chuck Norris Project - ORT Argentina for a REST API develop with Node.js and Express.
 
 Installation
 ============
