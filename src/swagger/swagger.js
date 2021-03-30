@@ -4,9 +4,9 @@ const router = express.Router()
 const options = {
   swaggerDefinition: {
     info: {
-      title: 'CHUCK NORRIS - PPT',
+      title: 'Nombre de la APP',
       version: '1.0.0',
-      description: 'Piedra Papel o Tijera de Chuck Norris',
+      description: '...',
       contact: {
         email: '?@gmail.com'
       }
